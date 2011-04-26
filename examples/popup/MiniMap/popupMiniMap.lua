@@ -12,8 +12,6 @@ timer.newTimer( "update_map", 0.1 )
 
 menu.newItem("Mini Map", "mnuTogglePopupMiniMap")
 
-gizmo.resetEventMap()
-
 
 function update_map()
     speed = acf.getIAS() -- get speed in meters per second
@@ -50,7 +48,8 @@ end
 
 --setup some values to define how big our popup will be.
 popupMiniMap_coords = {
-	top = 50,
+
+	top = 150,
 	left = 50,
 	width = 200,
 	height = 128,
@@ -69,6 +68,10 @@ popupMiniMap_coords = {
 	end
 }
 
+sw,sh = gfx.getScreenSize()
+popupMiniMap_coords.left = sw - (popupMiniMap_coords.width * 2)
+popupMiniMap_coords.top = sh - (popupMiniMap_coords.height)
+
 
 function OnDraw_Windows()
 
@@ -80,10 +83,10 @@ function OnDraw_Windows()
 		gfx.setColor(1,0,0,1)
 		
 		--draw a box, coordinates are left, top, width, height
-		gfx.drawBox(  pc.left, pc.top,  pc.width, pc.height  )
+		gfx.drawBox(  pc.left, pc.top-pc.height,  pc.width, pc.height  )
 		
 		gfx.setColor(0,0.5,0,0.5)
-		gfx.drawFilledBox(  pc.left+128, pc.top,  pc.width-128, pc.height  )
+		gfx.drawFilledBox(  pc.left+128, pc.top-pc.height,  pc.width-128, pc.height  )
 		
 		--draw the SDK box
 		--gfx.drawTranslucentDarkBox(  pc.left, pc.top,  pc.width, pc.height  )
@@ -188,7 +191,7 @@ end
 --init_popups()
 
 
-
+--[[
 --Seem to use this alot for drawing vector graphics, should add an api call.
 gfx.texOff = function()
 	 gfx.setState(
@@ -214,3 +217,4 @@ gfx.texOn = function()
             0 --depth write off
             )
 end
+--]]

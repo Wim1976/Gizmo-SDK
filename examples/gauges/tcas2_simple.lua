@@ -13,9 +13,9 @@ xplugins_gauges_tcas2 = {
 			self.gfx_path = xp.getAircraftFolder() .. "graphics/tcas2/";
 				--gauge background?
 			
-			self.dref_vertSpeed = xp.findDataref("sim/cockpit2/gauges/indicators/vvi_fpm_pilot");
+			self.dref_vertSpeed = xp.getDataref("sim/cockpit2/gauges/indicators/vvi_fpm_pilot");
 			
-			self.dref_ai_	= xp.findDataref("sim/multiplayer/")
+			--self.dref_ai_	= xp.getDataref("sim/multiplayer/")
 		
 		
 		--How big is the gauge in pixels..
@@ -64,10 +64,10 @@ xplugins_gauges_tcas2 = {
 
 	-- Define utility function for mapping fpm rates to gauge positions.
 	fpm_to_degrees = function( self, fpm )
-		max_fpm = 6000;
-		max_gauge_range = 160;
+		local max_fpm = 6000;
+		local max_gauge_range = 160;
 	
-			fpm_gauge = (fpm / max_fpm);
+			local fpm_gauge = (fpm / max_fpm);
 			if( fpm_gauge > 1 )then
 				fpm_gauge = 1;
 			elseif( fpm_gauge < -1 )then
@@ -84,7 +84,6 @@ xplugins_gauges_tcas2 = {
 
 	draw = function(self)
 	
-		return
 		gfx.setState(
 								0, --fog
 								0, --tex units
@@ -93,9 +92,7 @@ xplugins_gauges_tcas2 = {
 								1, --alpha blend
 								0, --depth test
 								0  --depth write
-							);
-		
-		
+							)
 		
 		self.val_fpm = xp.getFloat( self.dref_vertSpeed );
 		
@@ -114,23 +111,26 @@ xplugins_gauges_tcas2 = {
 			gl.PushMatrix();
 				gl.Color( 0, 0, 0, 1 );
 				gl.Translate( -(self.gauge_half+5), -(self.gauge_half+5), 0 );
-				gfx.drawQuad( self.gauge_size+10, self.gauge_size+10 );
+				--gfx.drawQuad( self.gauge_size+10, self.gauge_size+10 );
+				gfx.drawFilledBox( 0,0, self.gauge_size+10, self.gauge_size+10 );
 			gl.PopMatrix();
 			
-			
+
+
 			--calculate target arcs....
 			self.target_vs = -1500;
 			self.target_vs_window_min = self.target_vs - 500;
 			self.target_vs_window_max = self.target_vs + 500;
-			
-			
+
+
+
 			--draw VS target arcs
 				gl.LineWidth(2);
 					
-					self.green_start 	= self.fpm_to_degrees( self.target_vs_window_min )+270;
-					self.green_stop	= self.fpm_to_degrees( self.target_vs_window_max )+270;
+					self.green_start 	= self:fpm_to_degrees( self.target_vs_window_min )+270;
+					self.green_stop	= self:fpm_to_degrees( self.target_vs_window_max )+270;
 					
-					
+
 					--draw red arc
 					gl.Color( 1,0,0, 1 );
 					if( self.green_start >= 270 )then
@@ -145,7 +145,7 @@ xplugins_gauges_tcas2 = {
 						end
 					end
 					
-					
+
 					--draw green arc
 					gl.Color( 0,1,0, 1 );
 					--for i=0, 30, 0.5 do
@@ -154,11 +154,13 @@ xplugins_gauges_tcas2 = {
 					end
 			
 			gl.LineWidth(2);
+
+
 			
 			gl.Color( 1, 1, 1, 1 );
 			gfx.drawCircle( self.gauge_half, 40 );
 			
-			
+
 			
 			--draw tick marks
 			for i=270, 430, 30 do
@@ -174,7 +176,7 @@ xplugins_gauges_tcas2 = {
 				gl.PushMatrix();
 					gl.Rotate( 270, 0, 0, -1 );
 					
-					self.val_fpm_gauge = self.fpm_to_degrees( self.val_fpm );
+					self.val_fpm_gauge = self:fpm_to_degrees( self.val_fpm );
 					
 					--draw needle!
 					gl.LineWidth(3);
@@ -182,10 +184,33 @@ xplugins_gauges_tcas2 = {
 					
 				gl.PopMatrix();
 			
-			
+			--]]
 			gl.LineWidth(1);
 			
 		gl.PopMatrix();
 		
 	end	
 }
+
+xplugins_gauges_tcas2:init()
+
+
+
+
+
+do
+	 local old_OnDraw_Windows = OnDraw_Windows
+
+	function OnDraw_Windows()
+
+		xplugins_gauges_tcas2:draw()
+
+		--[[
+		if( old_OnDraw_Windows )then
+			old_OnDraw_Windows()
+		end
+		--]]
+
+	end
+
+end
