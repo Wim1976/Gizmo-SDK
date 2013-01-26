@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!-- Komodo Project File - DO NOT EDIT -->
-<project id="0e6bae21-ea0b-674e-8272-17034536ba2d" kpf_version="4" name="Gizmo SDK Examples.kpf">
-<preference-set idref="0e6bae21-ea0b-674e-8272-17034536ba2d">
-  <boolean id="import_live">1</boolean>
-</preference-set>
-</project>
