@@ -1,1 +1,16 @@
 Gizmo-SDK is a collection of example scripts for the Gizmo plugin for X-Plane.
+
+
+  "aircraft projects"
+  Various complete projects demonstrating how to customise an aicraft project.
+
+
+  "misc examples"
+  Random snippets of unfinished, unpolished, experimental code samples.
+
+
+
+Please refer to the LICENSE.txt file contained in sub-folders for exact license terms.
+
+License is MIT/X11 if none is specified.
+
