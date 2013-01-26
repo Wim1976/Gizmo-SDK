@@ -96,10 +96,11 @@ g_transitionSpeed = 2.0				--how fast the rotor will transition from one positio
 
 
 
+event.register("OnUpdate", "OnUpdate_FlightControls")
 
 
 --main flight-loop logic
-function OnUpdate()
+function OnUpdate_FlightControls()
 
 	local newPitch	= 0.0;
 	local newRoll	= 0.0;
@@ -212,7 +213,7 @@ end
 
 
 
-
+dofile("etl_patch.lua")
 
 
 --eof
