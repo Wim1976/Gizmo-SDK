@@ -39,6 +39,9 @@ function OnBoot()
 	--bind our data refs
 	xpdr_OverrideFlightControls = dref.getDataref("sim/operation/override/override_flightcontrol");
 	
+	dref.setInt( xpdr_OverrideFlightControls, 1 ) --override flight controls
+	
+	
 	xpdr_KIAS		= dref.getDataref("sim/flightmodel/position/indicated_airspeed");
 	
 	xpdr_JsPitch	= dref.getDataref("sim/joystick/yolk_pitch_ratio");
